@@ -2,6 +2,7 @@ import torch.nn as nn
 import torch
 from torch.autograd import Variable
 
+device = "cuda" if torch.cuda.is_available() else "cpu"
 class Discriminator(nn.Module):
     def __init__(self, input_size, hidden_size, num_layers):
         super(Discriminator, self).__init__()
@@ -29,8 +30,8 @@ class Discriminator(nn.Module):
         # x, y: (B, T, L)
         B, L = x.shape[0], x.shape[1]
 
-        h_0 = Variable(torch.zeros(self.num_layers * 2, x.size(0), self.hidden_size))
-        c_0 = Variable(torch.zeros(self.num_layers * 2, x.size(0), self.hidden_size))
+        h_0 = Variable(torch.zeros(self.num_layers * 2, x.size(0), self.hidden_size)).to(device)
+        c_0 = Variable(torch.zeros(self.num_layers * 2, x.size(0), self.hidden_size)).to(device)
         _, (x_encode, _) = self.lstm(x, (h_0, c_0))
         _, (y_encode, _) = self.lstm(y, (h_0, c_0))
 

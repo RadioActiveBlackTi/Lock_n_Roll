@@ -15,9 +15,9 @@ def train(model, epochs, loss_weights, dataloader_train, dataloader_valid):
     bce_loss = nn.BCELoss(reduction='none').to(device)
     criterion = lambda pred, target: ((loss_weights[1] * target + loss_weights[0] * (1 - target)) * bce_loss(pred, target)).mean()
     optimizer = optim.Adam(model.parameters(), lr=1e-4)
-    metric = Accuracy(task="binary")
-    metric2 = BinaryPrecision()
-    metric3 = BinaryRecall()
+    metric = Accuracy(task="binary").to(device)
+    metric2 = BinaryPrecision().to(device)
+    metric3 = BinaryRecall().to(device)
 
     for epoch in range(epochs):
         cost = 0.0
@@ -29,9 +29,9 @@ def train(model, epochs, loss_weights, dataloader_train, dataloader_valid):
             train_data, label_train = samples # train_data: tuple(Tensor(B, T, L), Tensor(B, T, L))
             x_train, y_train = train_data[0], train_data[1]
 
-            x_train.to(device)
-            y_train.to(device)
-            label_train.to(device)
+            x_train = x_train.to(device)
+            y_train = y_train.to(device)
+            label_train = label_train.to(device)
 
             optimizer.zero_grad()
 
@@ -63,9 +63,9 @@ def train(model, epochs, loss_weights, dataloader_train, dataloader_valid):
                 valid_data, label_valid = samples
                 x, y = valid_data[0], valid_data[1]
 
-                x.to(device)
-                y.to(device)
-                label_valid.to(device)
+                x = x.to(device)
+                y = y.to(device)
+                label_valid = label_valid.to(device)
 
                 optimizer.zero_grad()
 
@@ -88,9 +88,9 @@ def test(model, loss_weights, dataloader_test):
 
     bce_loss = nn.BCELoss(reduction='none').to(device)
     criterion = lambda pred, target: ((loss_weights[1] * target + loss_weights[0] * (1 - target)) * bce_loss(pred, target)).mean()
-    metric = Accuracy(task="binary")
-    metric2 = BinaryPrecision()
-    metric3 = BinaryRecall()
+    metric = Accuracy(task="binary").to(device)
+    metric2 = BinaryPrecision().to(device)
+    metric3 = BinaryRecall().to(device)
 
     with torch.no_grad():
         model.eval()
@@ -98,9 +98,9 @@ def test(model, loss_weights, dataloader_test):
             test_data, test_label = samples
             x, y = test_data[0], test_data[1]
 
-            x.to(device)
-            y.to(device)
-            test_label.to(device)
+            x = x.to(device)
+            y = y.to(device)
+            test_label = test_label.to(device)
 
             output = model(x, y)
             loss = criterion(output, test_label)
