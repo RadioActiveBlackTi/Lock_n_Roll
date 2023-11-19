@@ -1,6 +1,6 @@
 import torch
 import model
-import scanner
+from scanner import Scanner
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -10,9 +10,9 @@ if __name__=="__main__":
     net.to(device)
     net.eval()
 
-    modis = scanner.modi_connect()
+    scanner = Scanner()
     input("Continue to type: ")
-    x = scanner.scan_key(10, modis)
+    x = scanner.scan_key(10)
     input("Continue to type: ")
-    y = scanner.scan_key(10, modis)
+    y = scanner.scan_key(10)
     print(net(torch.FloatTensor(x).unsqueeze(0), torch.FloatTensor(y).unsqueeze(0)))
