@@ -35,6 +35,7 @@ class Safe:
             self.led.rgb = 100, 0, 0
         time.sleep(2)
         self.led.rgb = 0, 0, 0
+        self.speaker.tune = 0, 0
         self.display.text = "Lock'n Roll"
 
     def select(self):

@@ -8,10 +8,10 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 if __name__=="__main__":
     net = Discriminator(8, 128, 8)
-    net.load_state_dict(torch.load("./model_state_dict.pt", map_location=torch.device(device)))
+    net.load_state_dict(torch.load("./resources/model_state_dict.pt", map_location=torch.device(device)))
     net.to(device)
 
-    data = pd.read_csv("./dataset.csv")
+    data = pd.read_csv("./resources/dataset.csv")
 
     x, _ = dataset_extract(data, 1)
     y, _ = dataset_extract(data, 8)

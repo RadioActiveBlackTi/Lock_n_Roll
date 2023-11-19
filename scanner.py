@@ -49,13 +49,13 @@ if __name__ == "__main__":
         key = int(input("Dataset Enroll >> Please write key index: "))
         while(True):
             scan = scanner.scan_key(range_num)
-            dataset_enroll("./dataset.csv", scan, key)
+            dataset_enroll("./resources/dataset.csv", scan, key)
             if input("Dataset Enroll >> Continue?: ")=='q':
                 break
     elif mode=='key':
         scan = scanner.scan_key(range_num)
         key = int(input("Key Enroll >> Please write key index: "))
-        dataset_enroll("./key.csv", scan, key)
+        dataset_enroll("./resources/key.csv", scan, key)
     else:
         scan = scanner.scan_key(range_num)
         print(scan)

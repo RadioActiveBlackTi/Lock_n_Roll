@@ -118,7 +118,7 @@ def test(model, loss_weights, dataloader_test):
 
 if __name__=="__main__":
     epochs = 50
-    dataset = PairwiseDataset("./dataset.csv")
+    dataset = PairwiseDataset("./resources/dataset.csv")
 
     counts = dict(Counter(dataset.outp))
     print(counts)
@@ -142,5 +142,5 @@ if __name__=="__main__":
     print("="*32)
     test(net, weights, dataloader_test)
     if ((input("Save it?: "))!="n"):
-        torch.save(net.state_dict(), './model_state_dict.pt')
+        torch.save(net.state_dict(), './resources/model_state_dict.pt')
         print('saved.')
