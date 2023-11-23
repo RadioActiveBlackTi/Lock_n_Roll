@@ -34,7 +34,6 @@ class Scanner:
             time.sleep(1)
 
         scanned_data = np.array(scanned_data)[1:,:]
-        print(scanned_data)
         self.motor.degree = 0, 0
         time.sleep(3)
 
@@ -42,20 +41,22 @@ class Scanner:
 
 
 if __name__ == "__main__":
-    mode = 'dataset'
+    mode = 'key'
     range_num = 10
     scanner = Scanner()
     if mode=='dataset':
         key = int(input("Dataset Enroll >> Please write key index: "))
         while(True):
             scan = scanner.scan_key(range_num)
+            print(scan)
             dataset_enroll("./resources/dataset.csv", scan, key)
             if input("Dataset Enroll >> Continue?: ")=='q':
                 break
     elif mode=='key':
         scan = scanner.scan_key(range_num)
+        print(scan)
         key = int(input("Key Enroll >> Please write key index: "))
-        dataset_enroll("./resources/key.csv", scan, key)
+        dataset_enroll("./resources/key.csv", scan, key, enroll_key=True)
     else:
         scan = scanner.scan_key(range_num)
         print(scan)
