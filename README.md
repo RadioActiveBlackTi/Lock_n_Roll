@@ -15,3 +15,5 @@ torch==2.1.0.dev20230315+cpu
 
 torchmetrics==1.2.0
 
+keyboard~=0.13.5
+

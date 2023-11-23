@@ -1,6 +1,7 @@
 import torch
 import pandas as pd
 import keyboard
+import time
 
 import scanner
 import safe
@@ -32,20 +33,19 @@ if __name__ == "__main__":
     print("s: Select Key")
     print("=" * 32)
     while (True):
-        k = keyboard.read_key()
-        if k == "q":
+        if keyboard.is_pressed("q"):
             print(">> Exiting Lock'n Roll...")
             break
 
-        elif k=="u":
+        elif keyboard.is_pressed("u"):
             print(">> Unlocking Safe Explicitly...")
             lock.unlock_explicit()
 
-        elif k=="l":
+        elif keyboard.is_pressed("l"):
             print(">> Locking Safe Explicitly...")
             lock.lock_explicit()
 
-        elif k=="m":
+        elif keyboard.is_pressed("m"):
             if lock.mode:
                 print(">> Changing to Enroll Mode")
                 lock.mode = 0
@@ -55,7 +55,7 @@ if __name__ == "__main__":
                 lock.mode = 1
                 lock.set_text()
 
-        elif k=="s":
+        elif keyboard.is_pressed("s"):
             lock.select()
             print(f">> Key Selected: {lock.key}")
 
@@ -63,21 +63,27 @@ if __name__ == "__main__":
             if not lock.state and lock.mode:
                 lock.lock_explicit()
             else:
+                print(">> Scanning...")
                 lock.display.text = "Scanning..."
                 scanned = sc.scan_key(10)
-                key = lock.key
                 if not lock.mode:
                     print(">> Scanned Data")
                     print(scanned)
-                    dataset_enroll("./resources/key.csv", scanned, key, enroll_key=True)
+                    print(">> End of Scanned Data")
+                    dataset_enroll("./resources/key.csv", scanned, lock.key, enroll_key=True)
                 else:
                     key_data = pd.read_csv("./resources/key.csv")
-                    key_scan, _ = dataset_extract(key_data, key, key_finding=True)
-                    scanned = torch.FloatTensor(scanned).unsqueeze(0)
-                    key_scan = torch.FloatTensor(key_scan).unsqueeze(0)
+                    key_scan, _ = dataset_extract(key_data, lock.key, key_finding=True)
+                    if not key_scan.any():
+                        lock.display.text = f'No Key Enrolled in key idx {lock.key}'
+                        print(f">> No key enrolled in key idx {lock.key}")
+                        time.sleep(2)
+                    else:
+                        scanned = torch.FloatTensor(scanned).unsqueeze(0)
+                        key_scan = torch.FloatTensor(key_scan).unsqueeze(0)
 
-                    prob = net(scanned, key_scan)
-                    print(f">> Probability of same: {float(prob): .2f}")
-                    lock.locker(prob, threshold)
+                        prob = net(scanned, key_scan)
+                        print(f">> Probability of same: {float(prob): .2f}")
+                        lock.locker(prob, threshold)
                 lock.set_text()
 
