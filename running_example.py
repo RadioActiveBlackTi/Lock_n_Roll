@@ -6,7 +6,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 
 if __name__=="__main__":
     net = model.Discriminator(8, 128, 8)
-    net.load_state_dict(torch.load("./resources/model_state_dict.pt"))
+    net.load_state_dict(torch.load("./resources/model_state_dict.pt", map_location=torch.device(device)))
     net.to(device)
     net.eval()
 

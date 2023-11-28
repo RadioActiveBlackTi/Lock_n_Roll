@@ -10,7 +10,6 @@ from data_utils import dataset_enroll, dataset_extract
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-NoButton = True
 uuid = '96BA8B36'
 threshold = 0.75
 

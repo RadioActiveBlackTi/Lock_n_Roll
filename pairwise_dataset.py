@@ -21,12 +21,7 @@ class PairwiseDataset(Dataset):
                 else:
                     outp.append(0)
                     inp.append((d_a, d_b))
-                    """
-                    k = random.choice([abc for abc in range(data_length**2)])
-                    if (k < 3*data_length):
-                        outp.append(0)
-                        inp.append((d_a, d_b))
-                    """
+
         self.inp = inp
         self.outp = np.asarray(outp)
 

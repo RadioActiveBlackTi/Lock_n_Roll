@@ -41,7 +41,7 @@ class Scanner:
 
 
 if __name__ == "__main__":
-    mode = 'key'
+    mode = 'dataset'
     range_num = 10
     scanner = Scanner()
     if mode=='dataset':
