@@ -1,5 +1,6 @@
 # Lock_n_Roll
-CoE202 Final Project
+CoE202 Final Project. For more detailed explanations, refer the file below.
+https://www.dropbox.com/scl/fi/f67p10b4lzfo1ubr236fu/LocknRoll-Manual.pdf?rlkey=p7g8q0j6po9p42nt1fy1x8uu4&dl=0
 
 # Python Version
 Python 3.11 used
